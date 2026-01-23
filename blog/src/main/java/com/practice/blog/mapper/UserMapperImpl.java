@@ -2,25 +2,25 @@ package com.practice.blog.mapper;
 
 import com.practice.blog.dto.UserDto;
 import com.practice.blog.entity.User;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserMapperImpl implements Mapper<User,UserDto>{
+    private ModelMapper modelMapper;
+
+    public UserMapperImpl(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     @Override
     public UserDto mapFromEntityToDto(User user){
-        if(user == null) return null;
-        UserDto tempUser = new UserDto();
-        tempUser.setUserId(user.getId());
-        tempUser.setName(user.getName());
-        tempUser.setUserName(user.getUserName());
-        return tempUser;
+        return modelMapper.map(user,UserDto.class);
     }
 
     @Override
     public User mapFromDtoToEntity(UserDto userDto){
-        if(userDto == null) return null;
-        User tempUser = new User();
-        tempUser.setId(userDto.getUserId());
-        tempUser.setName(userDto.getName());
-        tempUser.setUserName(userDto.getUserName());
-        return tempUser;
+        return modelMapper.map(userDto,User.class);
     }
 }
