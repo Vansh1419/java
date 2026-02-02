@@ -1,0 +1,100 @@
+package design_pattern.creational.builder;
+
+// Burgermeal
+// Bun
+// Patty
+
+// Old method
+//class BurgerMeal{
+//    private String bun;
+//    private String patty;
+//
+//    public  BurgerMeal(String bun, String patty){
+//        this.bun = bun;
+//        this.patty = patty;
+//    }
+//}
+
+import java.util.List;
+
+// Represents a customizable Burger Meal
+class BurgerMeal {
+    // Required components
+    private final String bunType;
+    private final String patty;
+
+    // Optional components
+    private final boolean hasCheese;
+    private final List<String> toppings;
+    private final String side;
+    private final String drink;
+
+    // Private constructor to force use of Builder
+    private BurgerMeal(BurgerBuilder builder) {
+        this.bunType = builder.bunType;
+        this.patty = builder.patty;
+        this.hasCheese = builder.hasCheese;
+        this.toppings = builder.toppings;
+        this.side = builder.side;
+        this.drink = builder.drink;
+    }
+
+    // Static nested Builder class
+    public static class BurgerBuilder {
+        // Required
+        private final String bunType;
+        private final String patty;
+
+        // Optional
+        private boolean hasCheese;
+        private List<String> toppings;
+        private String side;
+        private String drink;
+
+        // Builder constructor with required fields
+        public BurgerBuilder(String bunType, String patty) {
+            this.bunType = bunType;
+            this.patty = patty;
+        }
+
+        // Method to set cheese
+        public BurgerBuilder withCheese(boolean hasCheese) {
+            this.hasCheese = hasCheese;
+            return this;
+        }
+
+        // Method to set toppings
+        public BurgerBuilder withToppings(List<String> toppings) {
+            this.toppings = toppings;
+            return this;
+        }
+
+        // Method to set side
+        public BurgerBuilder withSide(String side) {
+            this.side = side;
+            return this;
+        }
+
+        // Method to set drink
+        public BurgerBuilder withDrink(String drink) {
+            this.drink = drink;
+            return this;
+        }
+
+        // Final build method
+        public BurgerMeal build() {
+            return new BurgerMeal(this);
+        }
+    }
+}
+
+
+public class Main {
+    public static void main(String[] args) {
+        BurgerMeal burgerMeal = new BurgerMeal.BurgerBuilder("wheat","veg").build();
+        BurgerMeal burgerMealWithCheeze = new BurgerMeal.BurgerBuilder("wheat","veg")
+                .withCheese(true)
+                .build();
+
+    }
+}
